@@ -14,7 +14,7 @@ export default function Home() {
   const [confirmReset, setConfirmReset] = useState(false);
   const [clickAnimating, setClickAnimating] = useState(false);
   const [purchasedUpgrade, setPurchasedUpgrade] = useState('');
-  const [loading, setLoading] = useState(true); // ✨ New: loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const saved = localStorage.getItem('clicker-data');
@@ -31,9 +31,7 @@ export default function Home() {
       setShowTutorial(true);
     }
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000); // ✨ Wait 1 second then stop loading
+    setTimeout(() => setLoading(false), 1000);
   }, []);
 
   useEffect(() => {
@@ -122,11 +120,8 @@ export default function Home() {
     }
   };
 
-  const closeTutorial = () => {
-    setShowTutorial(false);
-  };
+  const closeTutorial = () => setShowTutorial(false);
 
-  // ✨ Show loading screen
   if (loading) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-blue-50 text-center p-4">
@@ -140,7 +135,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-blue-50 text-center p-4 relative overflow-hidden">
-      {/* Restart Button */}
+      {/* Reset Button */}
       <button
         onClick={handleReset}
         className="absolute top-4 left-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
@@ -148,7 +143,7 @@ export default function Home() {
         {confirmReset ? 'Are you sure? Click again!' : 'Restart'}
       </button>
 
-      {/* Tutorial Overlay */}
+      {/* Tutorial */}
       {showTutorial && (
         <div className="absolute inset-0 bg-black bg-opacity-80 flex items-center justify-center z-20">
           <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md text-center space-y-4">
@@ -166,7 +161,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Upgrade Animation */}
+      {/* Upgrade Notice */}
       {purchasedUpgrade && (
         <div className="absolute top-10 right-10 bg-green-500 text-white px-4 py-2 rounded-lg animate-bounce z-20">
           {purchasedUpgrade} Upgrade Purchased!
@@ -174,7 +169,7 @@ export default function Home() {
       )}
 
       <div className="flex gap-8 items-start mt-8">
-        {/* Counter Box */}
+        {/* Main Counter */}
         <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full">
           <h1 className="text-4xl text-blue-500 font-extrabold mb-4">Click Counter</h1>
           <p className="text-lg mb-4 text-gray-700">
@@ -196,41 +191,29 @@ export default function Home() {
 
           <div className="space-y-3">
             {count >= 200 && !hasPurchased2x && (
-              <button
-                onClick={purchase2x}
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition w-full animate-fadein"
-              >
+              <button onClick={purchase2x} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg w-full">
                 Purchase 2x Clicks (300 clicks)
               </button>
             )}
             {count >= 700 && !hasPurchased5x && (
-              <button
-                onClick={purchase5x}
-                className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition w-full animate-fadein"
-              >
+              <button onClick={purchase5x} className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg w-full">
                 Purchase 5x Clicks (1000 clicks)
               </button>
             )}
             {count >= 4000 && !hasPurchased10x && (
-              <button
-                onClick={purchase10x}
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg transition w-full animate-fadein"
-              >
+              <button onClick={purchase10x} className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg w-full">
                 Purchase 10x Clicks (5000 clicks)
               </button>
             )}
             {count >= 8000 && !hasPurchased20x && (
-              <button
-                onClick={purchase20x}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg transition w-full animate-fadein"
-              >
+              <button onClick={purchase20x} className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg w-full">
                 Purchase 20x Clicks (10000 clicks)
               </button>
             )}
           </div>
         </div>
 
-        {/* Team and Auto Clicker Box */}
+        {/* Auto Clicker + Team Box */}
         <div className="bg-white p-4 rounded-2xl shadow-lg w-40 flex flex-col items-center">
           <h2 className="text-xl font-bold mb-2 text-gray-700">Your Team</h2>
           <div className="flex flex-col items-center space-y-2 mb-4">
@@ -240,11 +223,8 @@ export default function Home() {
           </div>
 
           {!hasAutoClicker && count >= 30 && (
-            <button
-              onClick={purchaseAutoClicker}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm animate-fadein"
-            >
-              Buy 10 Clicks per Second (50 clicks)
+            <button onClick={purchaseAutoClicker} className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm">
+              Buy 10 Clicks/sec (50 clicks)
             </button>
           )}
         </div>
